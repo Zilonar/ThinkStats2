@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+
+# Load the pregnancy data
+preg = ReadFemPreg()
+
+# Separate first babies and others
+first_babies = preg[preg['birthord'] == 1]
+other_babies = preg[preg['birthord'] != 1]
+
+# Calculate means and standard deviations of birth weights
+mean_first = first_babies['totalwgt_lb'].mean()
+std_first = first_babies['totalwgt_lb'].std()
+mean_other = other_babies['totalwgt_lb'].mean()
+std_other = other_babies['totalwgt_lb'].std()
+
+# Compute Cohen's d for birth weights
+n1 = len(first_babies)
+n2 = len(other_babies)
+pooled_std = np.sqrt(((n1 - 1) * std_first**2 + (n2 - 1) * std_other**2) / (n1 + n2 - 2))
+cohen_d_birth_weight = (mean_first - mean_other) / pooled_std
+
+# Calculate means and standard deviations of pregnancy lengths
+mean_length_first = first_babies['prglngth'].mean()
+std_length_first = first_babies['prglngth'].std()
+mean_length_other = other_babies['prglngth'].mean()
+std_length_other = other_babies['prglngth'].std()
+
+# Compute Cohen's d for pregnancy lengths
+pooled_std_length = np.sqrt(((n1 - 1) * std_length_first**2 + (n2 - 1) * std_length_other**2) / (n1 + n2 - 2))
+cohen_d_length = (mean_length_first - mean_length_other) / pooled_std_length
+
+# Print the results
+print(f"Mean birth weight of first babies: {mean_first:.2f} lb")
+print(f"Mean birth weight of other babies: {mean_other:.2f} lb")
+print(f"Cohen's d for birth weight: {cohen_d_birth_weight:.2f}")
+print(f"Mean pregnancy length of first babies: {mean_length_first:.2f} weeks")
+print(f"Mean pregnancy length of other babies: {mean_length_other:.2f} weeks")
+print(f"Cohen's d for pregnancy length: {cohen_d_length:.2f}")
