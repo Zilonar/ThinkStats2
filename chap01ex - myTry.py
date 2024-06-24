@@ -7,7 +7,8 @@ License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
 Michael Ferrell updates
 - Begining with a copy of code from nsfg.py
 - import pandas
-- 
+- removed     assert(len(resp) == 7643)    &    assert(resp.pregnum.value_counts()[1] == 1267)
+- addded print statement for value counts
 """
 
 import sys
